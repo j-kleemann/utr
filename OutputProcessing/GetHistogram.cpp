@@ -103,7 +103,7 @@ int main(int argc, char* argv[]){
 
 	// Create histograms
 	
-	const Int_t nhistograms = 9;
+	const Int_t nhistograms = 4;
 
 	TH1* hist[nhistograms];
 
@@ -111,11 +111,11 @@ int main(int argc, char* argv[]){
 	hist[1] = new TH1F("h2", "Energy Deposition in HPGe2 (only photons)", 10000, 0.0005, 10.0005);
 	hist[2] = new TH1F("h3", "Energy Deposition in HPGe3 (only photons)", 10000, 0.0005, 10.0005);
 	hist[3] = new TH1F("h4", "Energy Deposition in HPGe4 (only photons)", 10000, 0.0005, 10.0005);
-	hist[4] = new TH1F("h5", "Energy Deposition in ZeroDegree (only photons)", 10000, 0.0005, 10.0005);
-	hist[5] = new TH1F("h6", "Energy Deposition in HPGe6 (only photons)", 10000, 0.0005, 10.0005);
-	hist[6] = new TH1F("h7", "Energy Deposition in HPGe7 (only photons)", 10000, 0.0005, 10.0005);
-	hist[7] = new TH1F("h8", "Energy Deposition in HPGe8 (only photons)", 10000, 0.0005, 10.0005);
-	hist[8] = new TH1F("h9", "Energy Deposition in HPGe9 (only photons)", 10000, 0.0005, 10.0005);
+	//hist[4] = new TH1F("h5", "Energy Deposition in ZeroDegree (only photons)", 10000, 0.0005, 10.0005);
+	//hist[5] = new TH1F("h6", "Energy Deposition in HPGe6 (only photons)", 10000, 0.0005, 10.0005);
+	//hist[6] = new TH1F("h7", "Energy Deposition in HPGe7 (only photons)", 10000, 0.0005, 10.0005);
+	//hist[7] = new TH1F("h8", "Energy Deposition in HPGe8 (only photons)", 10000, 0.0005, 10.0005);
+	//hist[8] = new TH1F("h9", "Energy Deposition in HPGe9 (only photons)", 10000, 0.0005, 10.0005);
 
 	UInt_t multiplicity_counter[nhistograms] = {0};
 
@@ -170,7 +170,7 @@ int main(int argc, char* argv[]){
 					multiplicity_counter[3] = 0;
 				}
 			}
-			if(Volume == 5){
+			/*if(Volume == 5){
 				Edep_hist[4] += Edep;
 				++multiplicity_counter[4];
 				if(multiplicity_counter[4] == args.multiplicity){
@@ -214,7 +214,7 @@ int main(int argc, char* argv[]){
 					Edep_hist[8] = 0.;
 					multiplicity_counter[8] = 0;
 				}
-			}
+			}*/
 		}
 	}
 	

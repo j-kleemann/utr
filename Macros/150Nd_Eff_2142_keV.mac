@@ -1,0 +1,20 @@
+/run/initialize
+
+/gps/particle gamma
+/gps/pos/type Point
+
+/gps/pos/centre 0 0 0 mm #g3 setup target position
+#/gps/pos/centre 0 0 1612.1 mm #second setup target position
+
+/gps/ang/type iso
+
+/gps/ene/type Mono
+#/gps/ene/mono {sourceEnergy} #For looping
+/gps/ene/mono 2142 keV
+
+/run/printProgress 1000000
+
+#Never simulated more than 2^32=4294967296 particles
+#10 000 000 takes about 1 minute on 20 cpu cores#
+#So for effiency take 100 000 000 = 10 mintes
+/run/beamOn 100000000

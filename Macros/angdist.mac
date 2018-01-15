@@ -1,6 +1,6 @@
 /run/initialize
 
-/ang/particle geantino 
+/ang/particle photon 
 /ang/energy 3.002 MeV
 
 /ang/nstates 3
@@ -15,12 +15,12 @@
 /ang/sourceY 0. mm
 /ang/sourceZ 0. mm
 
-/ang/sourceDX 20. mm
+/ang/sourceDX 20. mm #Full length of the box
 /ang/sourceDY 20. mm
 /ang/sourceDZ 10. mm
 
 /ang/sourcePV Nd150_Target
-#/ang/sourcePV Dy164_2O3_Target
+#/ang/sourcePV Sm152_Target_Physical
 
 /run/printProgress 100000
-/run/beamOn 20
+/run/beamOn 300

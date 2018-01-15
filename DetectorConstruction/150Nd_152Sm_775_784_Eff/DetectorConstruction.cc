@@ -1173,36 +1173,36 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
 
 	/**************** g3 Target/Source ******************/
 
-	Nd150_Target *nd150_Target = new Nd150_Target();
-
-	G4LogicalVolume *Nd150_Target_Logical = nd150_Target->Get_Logical();
-
-	G4RotationMatrix *rotateG3Target = new G4RotationMatrix();
-	rotateG3Target->rotateY(180. * deg);
-
-	new G4PVPlacement(
-	    rotateG3Target,
-	    G4ThreeVector(0., 0., -BeamTube_Length_Downstream +
-	                              BeamTube_Length * 0.5 +
-	                              nd150_Target->Get_Target_Center()),
-	    Nd150_Target_Logical, "Nd150_Target_Physical", BeamTubeVacuum_Logical,
-	    false, 0);
-
-	/**************** Second Target/Source ***************/
-
-	Sm152_Target *sm152_Target = new Sm152_Target();
-
-	G4LogicalVolume *Sm152_Target_Logical = sm152_Target->Get_Logical();
-
-	G4RotationMatrix *rotateSecondTarget = new G4RotationMatrix();
-	rotateSecondTarget->rotateY(180. * deg);
-
-	new G4PVPlacement(
-	    rotateSecondTarget,
-	    G4ThreeVector(0., 0., -BeamTube_Length_Downstream + BeamTube_Length * 0.5 +
-	                      Target2_To_Target + sm152_Target->Get_Target_Center()),
-	    Sm152_Target_Logical, "Sm152_Target_Physical", BeamTubeVacuum_Logical,
-	    false, 0);
+	//Nd150_Target *nd150_Target = new Nd150_Target();
+    //
+	//G4LogicalVolume *Nd150_Target_Logical = nd150_Target->Get_Logical();
+    //
+	//G4RotationMatrix *rotateG3Target = new G4RotationMatrix();
+	//rotateG3Target->rotateY(180. * deg);
+    //
+	//new G4PVPlacement(
+	//    rotateG3Target,
+	//    G4ThreeVector(0., 0., -BeamTube_Length_Downstream +
+	//                              BeamTube_Length * 0.5 +
+	//                              nd150_Target->Get_Target_Center()),
+	//    Nd150_Target_Logical, "Nd150_Target_Physical", BeamTubeVacuum_Logical,
+	//    false, 0);
+    //
+	///**************** Second Target/Source ***************/
+    //
+	//Sm152_Target *sm152_Target = new Sm152_Target();
+    //
+	//G4LogicalVolume *Sm152_Target_Logical = sm152_Target->Get_Logical();
+    //
+	//G4RotationMatrix *rotateSecondTarget = new G4RotationMatrix();
+	//rotateSecondTarget->rotateY(180. * deg);
+    //
+	//new G4PVPlacement(
+	//    rotateSecondTarget,
+	//    G4ThreeVector(0., 0., -BeamTube_Length_Downstream + BeamTube_Length * 0.5 +
+	//                      Target2_To_Target + sm152_Target->Get_Target_Center()),
+	//    Sm152_Target_Logical, "Sm152_Target_Physical", BeamTubeVacuum_Logical,
+	//    false, 0);
 
 	// Box around the target/source. Inside this box, random coordinates for the
 	// AngularDistributionGenerator are sampled in order to find random points

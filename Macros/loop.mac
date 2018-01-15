@@ -1,0 +1,2 @@
+#/control/loop Macro Variable Start End Increment Unit
+/control/loop source.mac sourceEnergy 100 4000 100 keV
