@@ -1209,9 +1209,9 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
 	// inside the target/source. The box should wrap the target/source volume as
 	// tightly as possible. Remove the box when doing an actual simulation.
 
-	//	G4double AuxBox_LengthX = 20. * mm;
-	//	G4double AuxBox_LengthY = 20. * mm;
-	//	G4double AuxBox_LengthZ = 4. * mm;
+	//	G4double AuxBox_LengthX = 13. * 2 * mm;
+	//	G4double AuxBox_LengthY = 13. * 2 * mm;
+	//	G4double AuxBox_LengthZ = 7.5     * mm;
 	//
 	//	G4double AuxBox_X = 0. * mm;
 	//	G4double AuxBox_Y = 0. * mm;
@@ -1221,7 +1221,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct() {
 	//	    new G4Box("AuxiliaryBox_Solid", AuxBox_LengthX * 0.5,
 	//	              AuxBox_LengthY * 0.5, AuxBox_LengthZ * 0.5);
 	//	G4LogicalVolume *AuxiliaryBox_Logical =
-	//	    new G4LogicalVolume(AuxiliaryBox_Solid, vacuum,
+	//	    new G4LogicalVolume(AuxiliaryBox_Solid, air,
 	//"AuxiliaryBox_Logical");
 	//
 	//	AuxiliaryBox_Logical->SetVisAttributes(new G4VisAttributes(white));

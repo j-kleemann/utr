@@ -1,0 +1,31 @@
+/run/initialize
+
+/ang/particle photon
+/ang/energy 2994 keV
+
+/ang/nstates 3
+/ang/state1 0.
+/ang/state2 -1.
+/ang/state3 0.
+
+/ang/delta12 0.
+#/ang/delta23 {delta} #For looping
+/ang/delta23 0.
+
+/ang/sourceX 0. mm
+/ang/sourceY 0. mm
+/ang/sourceZ 0. mm
+
+/ang/sourceDX 26. mm #Full length of the box
+/ang/sourceDY 26. mm
+/ang/sourceDZ 7.5 mm
+
+/ang/sourcePV Nd150_Target
+#/ang/sourcePV Sm152_Target
+
+/run/printProgress 1000000
+
+#Never simulated more than 2^32=4294967296 particles
+#10 000 000 takes about 1 minute on 20 cpu cores#
+#So for effiency take 100 000 000 = 10 mintes
+/run/beamOn 100000000
