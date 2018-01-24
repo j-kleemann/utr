@@ -1,0 +1,2 @@
+#/control/loop Macro Variable Start End Increment Unit
+/control/loop Macros/150Nd_Ang_2864_1+_2+.mac delta -7 0.3 0.02

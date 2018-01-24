@@ -28,4 +28,4 @@
 #Never simulated more than 2^32=4294967296 particles
 #10 000 000 takes about 1 minute on 20 cpu cores#
 #So for effiency take 100 000 000 = 10 mintes
-/run/beamOn 100000000
+/run/beamOn 50000000

@@ -10,7 +10,7 @@ make -j$(nproc --all) || exit
 
 outputdir="outputdir"
 threads=$(nproc --all)
-for sim in "Macros/150Nd_Ang_2142_1+_2+_Loop.mac" "Macros/150Nd_Ang_2864_1-_2+_Loop.mac" "Macros/150Nd_Ang_2864_1+_2+_Loop.mac" ; do
+for sim in "Macros/150Nd_Ang_2864_1+_2+_Detail_Loop.mac" "Macros/150Nd_Ang_2864_1+_2+_Global_Loop.mac" "Macros/150Nd_Ang_2864_1-_2+_Global_Loop.mac" "Macros/150Nd_Ang_2142_1+_2+_Global_Loop.mac" ; do
   for file in "$outputdir"/utr*_t*.root; do
     if [ -e "$file" ] ; then 
       echo "a $file file already exists in output directory \"$outputdir\"! Exiting..."
