@@ -1,0 +1,2 @@
+#/control/loop Macro Variable Start End Increment Unit
+/control/loop Macros/150Nd_ZeroDegResponse.mac beamEnergy 2000 3120 16 keV
