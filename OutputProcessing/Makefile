@@ -2,12 +2,16 @@ CPP=g++
 CFLAGS=-Wall -Wconversion -Wsign-conversion -O3
 ROOTFLAGS=`root-config --cflags --glibs`
 
-all: getHistogram histogramToTxt rootToTxt
+all: getHistogram getHistogramZeroDeg histogramToTxt rootToTxt
 
 getHistogram: GetHistogram.cpp
 	$(CPP) -o $@ $< $(CFLAGS) $(ROOTFLAGS)
 	cp $@ ..
 	cp loopGetHistogram.sh ..
+
+getHistogramZeroDeg: GetHistogramZeroDeg.cpp
+	$(CPP) -o $@ $< $(CFLAGS) $(ROOTFLAGS)
+	cp $@ ..
 
 histogramToTxt: HistogramToTxt.cpp
 	$(CPP) -o $@ $< $(CFLAGS) $(ROOTFLAGS)
@@ -23,6 +27,8 @@ rootToTxt: RootToTxt.cpp
 clean:
 	rm getHistogram
 	rm ../getHistogram
+	rm getHistogramZeroDeg
+	rm ../getHistogramZeroDeg
 	rm ../loopGetHistogram.sh
 	rm histogramToTxt
 	rm ../histogramToTxt
