@@ -1,0 +1,2 @@
+#/control/loop Macro Variable Start End Increment Unit
+/control/loop Macros/labr-effiency-estimation.mac sourceEnergy 500 20000 500 keV
