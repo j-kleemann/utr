@@ -46,7 +46,8 @@ int main(int argc, char* argv[]){
 		nbins = hist->GetNbinsX();
 
 		for(Int_t j = 1; j <= nbins; j++){
-			of << hist->GetBinCenter(j) << "\t" << hist->GetBinContent(j) << endl;
+			//of << hist->GetBinCenter(j) << "\t" << hist->GetBinContent(j) << endl;
+            of << hist->GetBinContent(j) << endl;
 		}
 
 		of.close();

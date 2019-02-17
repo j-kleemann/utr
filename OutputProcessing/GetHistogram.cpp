@@ -116,19 +116,19 @@ if(args.verbose){
 
 	TH1* hist[nhistograms];
 
-	hist[0] = new TH1F("hpge0", "Energy Deposition in ZeroDegree", 12000, 0.0005, 12.0005);
-	hist[1] = new TH1F("hpge1", "Energy Deposition in HPGe1", 12000, 0.0005, 12.0005);
-	hist[2] = new TH1F("hpge2", "Energy Deposition in HPGe2", 12000, 0.0005, 12.0005);
-	hist[3] = new TH1F("hpge3", "Energy Deposition in HPGe3", 12000, 0.0005, 12.0005);
-	hist[4] = new TH1F("hpge4", "Energy Deposition in HPGe4", 12000, 0.0005, 12.0005);
-	hist[5] = new TH1F("labr1", "Energy Deposition in LaBr1", 12000, 0.0005, 12.0005);
-	hist[6] = new TH1F("labr2", "Energy Deposition in LaBr2", 12000, 0.0005, 12.0005);
-	hist[7] = new TH1F("labr3", "Energy Deposition in LaBr3", 12000, 0.0005, 12.0005);
-	hist[8] = new TH1F("labr4", "Energy Deposition in LaBr4", 12000, 0.0005, 12.0005);
-	hist[9] = new TH1F("hpge9", "Energy Deposition in HPGe9", 12000, 0.0005, 12.0005);
-	hist[10] = new TH1F("hpge10", "Energy Deposition in HPGe10", 12000, 0.0005, 12.0005);
-	hist[11] = new TH1F("hpge11", "Energy Deposition in HPGe11", 12000, 0.0005, 12.0005);
-	hist[12] = new TH1F("hpge12", "Energy Deposition in HPGe12", 12000, 0.0005, 12.0005);
+	hist[0] = new TH1F("hpge0", "Energy Deposition in ZeroDegree", 21000, 0.0005, 21.0005);
+	hist[1] = new TH1F("labr1", "Energy Deposition in LaBr1", 21000, 0.0005, 21.0005);
+	hist[2] = new TH1F("labr2", "Energy Deposition in LaBr2", 21000, 0.0005, 21.0005);
+	hist[3] = new TH1F("labr3", "Energy Deposition in LaBr3", 21000, 0.0005, 21.0005);
+	hist[4] = new TH1F("labr4", "Energy Deposition in LaBr4", 21000, 0.0005, 21.0005);
+	hist[5] = new TH1F("labr5", "Energy Deposition in LaBr5", 21000, 0.0005, 21.0005);
+	hist[6] = new TH1F("labr6", "Energy Deposition in LaBr6", 21000, 0.0005, 21.0005);
+	hist[7] = new TH1F("labr7", "Energy Deposition in LaBr7", 21000, 0.0005, 21.0005);
+	hist[8] = new TH1F("labr8", "Energy Deposition in LaBr8", 21000, 0.0005, 21.0005);
+	hist[9] = new TH1F("hpge9", "Energy Deposition in HPGe9", 21000, 0.0005, 21.0005);
+	hist[10] = new TH1F("hpge10", "Energy Deposition in HPGe10", 21000, 0.0005, 21.0005);
+	hist[11] = new TH1F("hpge11", "Energy Deposition in HPGe11", 21000, 0.0005, 21.0005);
+	hist[12] = new TH1F("hpge12", "Energy Deposition in HPGe12", 21000, 0.0005, 21.0005);
 
 	UInt_t multiplicity_counter[nhistograms] = {0};
 
@@ -289,9 +289,17 @@ if(args.verbose){
 	// Write histogram to a new TFile
 	TFile *of = new TFile(args.outputfilename, "RECREATE");
 
-		for(auto h: hist){
-			h->Write();
-		}
+		//for(auto h: hist){
+		//	h->Write();
+		//}
+    hist[1]->Write();
+    hist[2]->Write();
+    hist[3]->Write();
+    hist[4]->Write();
+    hist[5]->Write();
+    hist[6]->Write();
+    hist[7]->Write();
+    hist[8]->Write();
 
 	of->Close();
 

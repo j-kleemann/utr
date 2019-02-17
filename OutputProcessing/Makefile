@@ -1,4 +1,4 @@
-CPP=g++
+CPP=g++ --std=c++11
 CFLAGS=-Wall -Wconversion -Wsign-conversion -O3
 ROOTFLAGS=-isystem$(shell root-config --incdir) -L$(shell root-config --libdir) -lCore -lRIO -lHist -lTree
 
