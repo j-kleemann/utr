@@ -1,0 +1,95 @@
+#!/usr/bin/env utrwrapper.py
+## An (utrwrapper.py) extended macro starts with a configuration header embedded in comment lines (preceded by a single '#')
+## For real comment lines in the header use multiple '#'s
+## Run utrwrapper.py -h for a list of all available configuration options and their effects
+
+## This macro is an example of using utrwrapper.py to prepare utr for and execute an efficiency simulation looping over the source energy
+
+#[generalConfig]
+#outputDir=output/150Sm_AngDist_2779_keV_1+_2+_delta
+
+#[environmentVariables]
+#filenamePrefix=150Sm_AngDist_2779_keV_1+_2+_delta=
+## ≈ 0.00711h per 1 000 000 counts @ 3113 & 2373 keV AngDist
+## ≈ 0.96MB   per 1 000 000 counts @ 3113 & 2373 keV AngDist
+#filenameSuffix=_n=80000000
+#beamOnStatistics=80000000
+#filenameTemplate={filenamePrefix}{loopVar}{filenameSuffix}
+#setterCmd=/ang/delta23 {loopVar}
+
+#[utrBuildOptions]
+#CAMPAIGN=Campaign_2014_2015
+#DETECTOR_CONSTRUCTION=150Sm
+#USE_TARGETS=ON
+#GENERATOR_ANGCORR=OFF
+#GENERATOR_ANGDIST=ON
+
+#[getHistogramArgs]
+#maxenergy=4
+#maxid=4
+
+#[histogramToTxtArgs]
+#begin=1
+#end=4
+
+## The required magic string signals the end of the configuration header
+#START_OF_MACRO
+
+# Never simulate more than 2^32= 4294967296 particles using /run/beamOn, since this causes an overflow in the random number seed, giving you in principle the same results over and over again.
+# In such cases execute the same simulation multiple times instead.
+/control/getEnv beamOnStatistics
+
+# Get the filenamePrefix and filenameSuffix variables defined in the configuration header as GEANT4 aliases
+/control/getEnv filenamePrefix
+/control/getEnv filenameSuffix
+
+# Disable appendage of additional IDs to filenames (as unique filenames containing the simulated energy will be used for each beamOn)
+/utr/setUseFilenameID False
+# Set the number of required decimal places for padding of loopVar
+/control/alias appendZerosToVarPadding 2
+
+
+
+# Do the usual initialization steps for an angular distribution simulation
+/run/initialize
+
+/ang/particle gamma
+/ang/energy 2779 keV
+
+/ang/nstates 3
+/ang/state1 0.
+/ang/state2 1.
+/ang/state3 2.
+/ang/polarized true
+
+/ang/delta12 0.
+#Looped: /ang/delta23 0.
+
+# Determine the position of the source.
+/ang/sourceX 0. mm
+/ang/sourceY 0. mm
+/ang/sourceZ 0. mm
+#/ang/sourceZ 0. mm # Ideal position of gamma3 target in all geometries
+#/ang/sourceZ 1574.80 mm # Ideal position of 2nd target in generation '18 geometries
+#/ang/sourceZ 1612.10 mm # Ideal position of 2nd target in generation '16/17 geometries
+
+# Determine the dimensions of the envelope box. Random numbers will be sampled in the 
+# intervals [-0.5*sourceDX, 0.5*sourceDX], [-0.5*sourceDY, 0.5*sourceDY], and
+# [-0.5*sourceDZ, 0.5*sourceDZ].
+/ang/sourceDX 20. mm
+/ang/sourceDY 20. mm
+/ang/sourceDZ 2. mm
+
+# Set the name of a physical volume that should act as a source.
+/ang/sourcePV Sm150_Target
+
+
+
+# Run the generic macro in a loop
+# loop Syntax: /control/loop MacroFile Variable Start End Increment
+# for each Syntax: /control/foreach MacroFile Variable ValueList
+# To use the variable in the macro to be looped refer to it wrapped in {} as {Variable} in the macro
+# Remember that due to the numerical inaccuracies when adding float numbers, a loop might generate a run more or less than expected!
+
+# Mathematica: With[{posRange = Join[Range[0, 1, 0.02], Range[1, 3, 0.05], Range[3, 5, 0.1], Range[5, 10, 0.5], Range[10, 20, 1]]}, Fold[#1 <> " " <> ToString[#2] &, "", Union[posRange, -posRange, SameTest -> Equal]]]
+/control/foreach macros/examples/genericLoopable.mac loopVar   -20 -19 -18 -17 -16 -15 -14 -13 -12 -11 -10 -9.5 -9. -8.5 -8. -7.5 -7. -6.5 -6. -5.5 -5. -4.9 -4.8 -4.7 -4.6 -4.5 -4.4 -4.3 -4.2 -4.1 -4. -3.9 -3.8 -3.7 -3.6 -3.5 -3.4 -3.3 -3.2 -3.1 -3. -2.95 -2.9 -2.85 -2.8 -2.75 -2.7 -2.65 -2.6 -2.55 -2.5 -2.45 -2.4 -2.35 -2.3 -2.25 -2.2 -2.15 -2.1 -2.05 -2. -1.95 -1.9 -1.85 -1.8 -1.75 -1.7 -1.65 -1.6 -1.55 -1.5 -1.45 -1.4 -1.35 -1.3 -1.25 -1.2 -1.15 -1.1 -1.05 -1. -0.98 -0.96 -0.94 -0.92 -0.9 -0.88 -0.86 -0.84 -0.82 -0.8 -0.78 -0.76 -0.74 -0.72 -0.7 -0.68 -0.66 -0.64 -0.62 -0.6 -0.58 -0.56 -0.54 -0.52 -0.5 -0.48 -0.46 -0.44 -0.42 -0.4 -0.38 -0.36 -0.34 -0.32 -0.3 -0.28 -0.26 -0.24 -0.22 -0.2 -0.18 -0.16 -0.14 -0.12 -0.1 -0.08 -0.06 -0.04 -0.02 0. 0.02 0.04 0.06 0.08 0.1 0.12 0.14 0.16 0.18 0.2 0.22 0.24 0.26 0.28 0.3 0.32 0.34 0.36 0.38 0.4 0.42 0.44 0.46 0.48 0.5 0.52 0.54 0.56 0.58 0.6 0.62 0.64 0.66 0.68 0.7 0.72 0.74 0.76 0.78 0.8 0.82 0.84 0.86 0.88 0.9 0.92 0.94 0.96 0.98 1. 1.05 1.1 1.15 1.2 1.25 1.3 1.35 1.4 1.45 1.5 1.55 1.6 1.65 1.7 1.75 1.8 1.85 1.9 1.95 2. 2.05 2.1 2.15 2.2 2.25 2.3 2.35 2.4 2.45 2.5 2.55 2.6 2.65 2.7 2.75 2.8 2.85 2.9 2.95 3. 3.1 3.2 3.3 3.4 3.5 3.6 3.7 3.8 3.9 4. 4.1 4.2 4.3 4.4 4.5 4.6 4.7 4.8 4.9 5. 5.5 6. 6.5 7. 7.5 8. 8.5 9. 9.5 10 11 12 13 14 15 16 17 18 19 20
