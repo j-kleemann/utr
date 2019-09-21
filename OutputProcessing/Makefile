@@ -1,10 +1,13 @@
 CPP=g++
-CFLAGS=-Wall -Wconversion -Wsign-conversion -O3 -std=c++11
+CFLAGS=-Wall -Wconversion -Wsign-conversion -O3 #-std=c++14
 ROOTFLAGS=-isystem$(shell root-config --incdir) -L$(shell root-config --libdir) -lCore -lRIO -lHist -lTree
 
-all: getHistogram histogramToTxt rootToTxt mergeFiles
+all: getHistogram getSolidAngleCoverage histogramToTxt rootToTxt mergeFiles
 
 getHistogram: GetHistogram.cpp
+	$(CPP) -o $@ $< $(CFLAGS) $(ROOTFLAGS)
+
+getSolidAngleCoverage: GetSolidAngleCoverage.cpp
 	$(CPP) -o $@ $< $(CFLAGS) $(ROOTFLAGS)
 
 histogramToTxt: HistogramToTxt.cpp
