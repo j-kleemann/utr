@@ -3,8 +3,6 @@
 ## For real comment lines in the header use multiple '#'s
 ## Run utrwrapper.py -h for a list of all available configuration options and their effects
 
-## This macro is an example of using utrwrapper.py to prepare utr for and execute an efficiency simulation looping over the source energy
-
 #[generalConfig]
 #outputDir=output/150Sm_AngDist_2779_keV_1-_2+_delta
 
