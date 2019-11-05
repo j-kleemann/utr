@@ -5,6 +5,7 @@
 
 #[generalConfig]
 #outputDir=output/150Sm_Efficiency
+#ensureTerminalMultiplexer=True
 
 #[environmentVariables]
 #filenamePrefix=150Sm_Efficiency_
@@ -16,6 +17,7 @@
 #[utrBuildOptions]
 #CAMPAIGN=Campaign_2014_2015
 #DETECTOR_CONSTRUCTION=150Sm
+#ZERODEGREE_OFFSET=30
 #USE_TARGETS=ON
 #GENERATOR_ANGCORR=OFF
 #GENERATOR_ANGDIST=OFF

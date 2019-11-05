@@ -34,7 +34,7 @@ void ZeroDegree_Setup::Construct(G4ThreeVector global_coordinates){
 	
 	HPGe_Collection hpge_Collection;
 	G4double zerodegree_rt = 0. * mm;
-	G4double zerodegree_dy = zerodegree_offset * mm;
+	G4double zerodegree_dy = zerodegree_offset * mm; // Was once (arbitrarily) 30. * mm hardcoded
 	G4double zerodegree_phi = 180. * deg;
 	G4double zerodegree_theta = 0. * deg;
 
