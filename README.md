@@ -776,6 +776,7 @@ Optional components:
 * [Qt](https://www.qt.io/) as a visualization driver. Compile Geant4 with the `GEANT4_USE_QT` option (tested with Qt4)
 * [ccmake](https://cmake.org/cmake/help/v3.0/manual/ccmake.1.html) UI for CMake which gives a quick overview of available build options
 * [CADMesh](https://github.com/christopherpoole/CADMesh) is required for DetectorConstructions that depend on the CADMesh library (option `WITH_CADMESH`). Thus, also the dependencies [TetGen](http://tetgen.org) and [ASSIMP](http://www.assimp.org/) are needed.
+* [python3](https://www.python.org/) is required for the [utrwrapper](#utrwrapper) script.
 
 ### 3.2 Compilation <a name="compilation"></a>
 
@@ -1024,7 +1025,7 @@ Executing
 
 ```bash
 $ ./OutputProcessing/getHistogram --help
-Usage: getHistogram [OPTION...] 
+Usage: getHistogram [OPTION...]
 Create histograms of energy depositions in detectors from a list of events
 stored among multiple ROOT files
 
@@ -1038,7 +1039,7 @@ stored among multiple ROOT files
                              displayed, -1 to disable (default: -1)
   -d, --inputdir=INPUTDIR    Directory to search for input files matching the
                              patterns (default: current working directory '.' )
-                            
+
   -e, --maxenergy=EMAX       Maximum energy displayed in histogram in MeV
                              (rounded up to match BINNING) (default: 10 MeV)
   -m, --multiplicity=MULTIPLICITY
@@ -1046,8 +1047,9 @@ stored among multiple ROOT files
                              each detector among MULTIPLICITY events (default:
                              1)
   -n, --maxid=MAXID          Highest detection volume ID (default: 12).
-                             'getHistogram' expects to only encounter detectors
-                             labeled with integer numbers from 0 to MAXID.
+                             'getHistogram' only processes energy depositions
+                             in detectors with integer volume ID numbers from 0
+                             to MAXID.
   -o, --filename=OUTPUTFILENAME   Output file name, file will be overwritten!
                              (default: {PATTERN1}_hist.root with a trailing
                              '_t' in PATTERN1 dropped)
@@ -1071,13 +1073,13 @@ for any corresponding short options.
 shows how to use the script. The meaning of the arguments to the most important options are:
 
 * EMAX: All energy depositions of a detector are stored in a histogram. This parameter sets the maximum energy of the histogram in MeV (default: 10 MeV). Note that this number will automatically be rounded up to match the required bin width given through the -binning BINNING option, if necessary.
-* BINNING: This option argument sets the bin width of the histograms in keV with the first bin always being centered around 0.
+* BINNING: This optional argument sets the bin width of the histograms in keV with the first bin always being centered around 0.
 * TREENAME: Name of the ROOT tree (Default: TREENAME=="utr") to be processed in all of the input files (which usually are utr output files).
 * PATTERN1 and PATTERN2: Two strings that identify the set of files to be merged. See also the example below. (Default: PATTERN1=="utr", PATTERN2==".root")
-* INPUTDIR: This option argument sets the directory in which getHistogram searches for files to be processed (files containing the patterns) (Default: search in current working directory ".")
+* INPUTDIR: This optional argument sets the directory in which getHistogram searches for files to be processed (files containing the patterns) (Default: search in current working directory ".")
 * OUTPUTFILENAME: Name of the output file to be created that will contain the histograms. Note that an exisiting file will be overwritten! The default behaviour is to use the PATTERN1 value with a possibly trailing _t removed and _hist.root appended. 
-* OUTPUTDIR: This option argument sets the directory in which getHistogram writes its output histogram file (Default: Use the input directory INPUTDIR)
-* MAXID: With this option argument the highest volume ID occurring in the input files is disclosed to getHistogram, causing getHistogram to prepare MAXID + 2 energy deposition histograms (for detectors 0 to MAXID and a sum histogram over all detectors). Should a detector ID higher than MAXID occur in the inputfiles getHistogram will crash! (Default: MAXID is 12)
+* OUTPUTDIR: This optional argument sets the directory in which getHistogram writes its output histogram file (Default: Use the input directory INPUTDIR)
+* MAXID: This optional argument determines the highest volume ID for which an output histogram is created. In total MAXID + 2 energy deposition histograms (for detectors 0 to MAXID, and a histogram called `sum` which contains the sum of all other ones) are created.  The optimum performance and memory usage can be obtained by numbering the sensitive volumes (using `G4SensitiveDetector::SetDetectorID()`, see also [2.2 Sensitive Detectors](#sensitivedetectors)) from 0 to MAXID. Otherwise, `getHistogram` will create a lot of unnecessary histograms. For example, if MAXID=10 is set, but the simulation only contains two detectors with IDs 0 and 10, eight empty histograms from 1 to 9 will be in the output of `getHistogram`. On the other hand warnings will be printed when a volume is encountered whose number is larger than MAXID. (Default MAXID is 12)
 * MULTIPLICITY: Determines how many events per detector should be accumulated before adding the energy deposition to the histogram. This can be used, for example, to simulate higher multiplicity events in a detector: Imagine two photons with energies of 511 keV hit a detector and deposit all their energy. However, the two events cannot be distinguished by the detector due to pileup, so a single event with an energy of 1022 keV will be added to the spectrum in the experiment. Similarly, Geant4 simulates event by event. In order to simulate pileup of n events, set MULTIPLICITY to n. (Default: MULTIPLICITY is 1)
 * BIN: Number of the histogram bin that should be printed to the screen while executing `getHistogram`. This option was introduced because often, one is only interested in the content of a special bin in the histograms (for example the full-energy peak). If the histograms are defined such that bin `3001` contains the events with an energy deposition between `2.9995 MeV` and `3.0005 MeV` and so on, so there is an easy correspondence between bin number and energy. (The default for BIN is -1, disabling the output)
 
@@ -1199,11 +1201,11 @@ Including `fepefficiency`, a complete toolchain exists for the simulation and ex
 
 ## 6 The utr Wrapper <a name="utrwrapper"></a>
 
-To somewhat automate and systematize the workflow of conducting simulations with utr once the detector construction is implemented, a wrapper python script called `utrwrapper.py` was created, which uses extended macro files to achieve this goal.
+To automate and systemize the workflow of conducting simulations with `utr` once the detector construction is implemented, a wrapper python script called `utrwrapper.py` was created in the `OutputProcessing/` directory, which uses extended macro files to achieve this goal.
 
 An extended macro file is a regular utr/GEANT4 macro file with a configuration header embedded as comment lines in the macro (lines proceeded by a '#').
-`utrwrapper.py` reads this header and based on it prepares the simulation (e.g. creating directories, aborting on already existing output files, configuring utr with required build options and making it), conducts the simulation defined by the macro file (with required niceness, threads and output directory), and optionally does subsequent output processing, while also optionally documenting all steps in a logfile.
-Using `utrwrapper.py` with a proper extended macro file, therefore, allows to conduct (and log) the full simulation procedure in an easily reproducible way with a single command.
+`utrwrapper.py` reads this header and based on it prepares the simulation (e.g. creating directories, aborting on already existing output files, configuring `utr` with required build options and making it), conducts the simulation defined by the macro file (with required niceness, number of threads and output directory), and optionally does subsequent output processing (all steps are executed in the given order), while also optionally documenting all steps in a logfile.
+Using `utrwrapper.py` with a proper extended macro file therefore allows to conduct (and log) the full simulation procedure in an easily reproducible way with a single command.
 
 Executing
 
@@ -1256,6 +1258,9 @@ listing all available options with their effect and default values
 #                                     # to utr's code directory and using all
 #                                     # other supplied paths relative to it
 #                                     # (Default: True)
+#ensureTerminalMultiplexer=False      # Whether to warn and abort if utrwrapper.py
+#                                     # is not run inside a tmux or GNU Screen
+#                                     # session (Default: False)
 #cmakeArgs=--debug-output             # Pure string of additional arguments to
 #                                     # cmake on utr, see also [utrBuildOptions]
 #                                     # section (Default: None)
@@ -1294,6 +1299,7 @@ listing all available options with their effect and default values
 #USE_TARGETS=ON                       # Example
 #GENERATOR_ANGCORR=OFF                # Example
 #GENERATOR_ANGDIST=ON                 # Example
+#ZERODEGREE_OFFSET=30                 # Example
 
 #[getHistogramArgs]                   # Optional section with additional longform
 #                                     # options (--LONGOPTION=VALUE) to getHistogram
@@ -1316,8 +1322,7 @@ listing all available options with their effect and default values
 shows how to use the script. This usage message especially states the structure of the extended macro header along with all available options, their effects and default values.
 
 Example extended macro files can be found in the `macros/examples/` directory and be identified by their `.xmac` file extension.
-To try `utrwrapper.py` out, call it from a command line with one of the example extended macro files as its arguments, for example run `./OutputProcessing/utrwrapper.py macros/example/utrwrapper-efficiency-example.xmac`.
-As `utrwrapper.py` for safety refuses to work outside a `tmux` or `screen` session, you either have to run it in such or bypass this restriction by executing for example `export TMUX=DUMMY` in the shell session before executing `utrwrapper.py`.
+To try `utrwrapper.py`, call it from a command line with one of the example extended macro files as its arguments, for example run `./OutputProcessing/utrwrapper.py macros/example/utrwrapper-efficiency-example.xmac`.
 
 ## 7 Unit Tests <a name="unittests"></a>
 
