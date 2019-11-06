@@ -9,7 +9,7 @@
 
 #[environmentVariables]
 #filenamePrefix=150Sm_ZeroDegree_Response_
-#filenameSuffix=_keV_dy=22_mm_n=200000000
+#filenameSuffix=_keV_dy=22_mm_n=100000000
 #beamOnStatistics=100000000      # In Udo's response matrices 50000000 statistics
 #filenameTemplate={filenamePrefix}{loopVar}{filenameSuffix}
 #setterCmd=/gps/ene/mono {loopVar} keV
