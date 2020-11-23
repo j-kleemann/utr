@@ -1,0 +1,23 @@
+/run/initialize
+#/vis/viewer/set/viewpointThetaPhi 0.3 180.
+
+/gps/particle gamma
+/gps/pos/type Plane
+/gps/pos/shape Rectangle
+/gps/pos/halfx 11.67 mm # 0.5*Sqrt(20mm^2+12mm^2)
+/gps/pos/halfy 6 mm
+#/gps/pos/halfx 2 mm # 0.5*Sqrt(20mm^2+12mm^2)
+#/gps/pos/halfy 2 mm
+/gps/pos/centre 0. 0. -18. mm
+/gps/direction 0. 0. 1.
+
+
+
+
+
+
+/gps/ene/type Mono
+/gps/ene/mono 1.26 MeV
+
+#/tracking/verbose 2
+/run/beamOn 20000000
