@@ -1,0 +1,73 @@
+#!/usr/bin/env utrwrapper.py
+## An (utrwrapper.py) extended macro starts with a configuration header embedded in comment lines (preceded by a single '#')
+## For real comment lines in the header use multiple '#'s
+## Run utrwrapper.py -h for a list of all available configuration options and their effects
+
+#[generalConfig]
+#outputDir=output/GDR-Exp-Efficiency-Estimation
+#ensureTerminalMultiplexer=True
+#getHistogramExe=getHistogram-Eventwise
+
+#[environmentVariables]
+#filenamePrefix=GDR-Exp-Efficiency-Estimation
+#filenameSuffix=_keV_n=500000000 # Need at least 100000000
+#beamOnStatistics=500000000
+#filenameTemplate={filenamePrefix}{loopVar}{filenameSuffix}
+#setterCmd=/gps/ene/mono {loopVar} keV
+
+#[utrBuildOptions]
+#CAMPAIGN=Others
+#DETECTOR_CONSTRUCTION=GDR-Exp-Efficiency-Estimation
+#USE_TARGETS=ON
+#GENERATOR_ANGCORR=OFF
+#GENERATOR_ANGDIST=OFF
+#EVENT_EVENTWISE=ON
+
+#[getHistogramArgs]
+#maxenergy=18.1
+#maxid=28
+#addback=5
+
+#[histogramToTxtArgs]
+#begin=1
+#end=-1
+
+## The required magic string signals the end of the configuration header
+#START_OF_MACRO
+
+# Never simulate more than 2^32= 4294967296 particles using /run/beamOn, since this causes an overflow in the random number seed, giving you in principle the same results over and over again.
+# In such cases execute the same simulation multiple times instead.
+/control/getEnv beamOnStatistics
+
+# Get the filenamePrefix and filenameSuffix variables defined in the configuration header as GEANT4 aliases
+/control/getEnv filenamePrefix
+/control/getEnv filenameSuffix
+
+# Disable appendage of additional IDs to filenames (as unique filenames containing the simulated energy will be used for each beamOn)
+/utr/setUseFilenameID False
+# Set the number of required decimal places for padding of loopVar (no padding here as loopVar only takes integer values)
+/control/alias appendZerosToVarPadding -1
+
+
+
+# Do the usual initialization steps for an efficiency simulation
+/run/initialize
+
+/gps/particle gamma
+/gps/pos/type Point
+/gps/pos/centre 0. 0. 0. mm
+#/gps/pos/centre 0. 0. 0. mm # Ideal position of gamma3 target in all geometries
+#/gps/pos/centre 0. 0. 1574.80 mm # Ideal position of 2nd target in generation '18 geometries
+#/gps/pos/centre 0. 0. 1612.10 mm # Ideal position of 2nd target in generation '16/17 geometries
+/gps/ang/type iso
+/gps/ene/type Mono
+
+
+
+# Run the generic macro in a loop
+# loop Syntax: /control/loop MacroFile Variable Start End Increment
+# for each Syntax: /control/foreach MacroFile Variable ValueList
+# To use the variable in the macro to be looped refer to it wrapped in {} as {Variable} in the macro
+# Remember that due to the numerical inaccuracies when adding float numbers, a loop might generate a run more or less than expected!
+# Mathematica: CopyToClipboard@Fold[#1 <> " " <> ToString[#2] &, "", Reverse[Range[400, 18000, 100]]]
+/control/foreach macros/examples/genericLoopable.mac loopVar 18000 17900 17800 17700 17600 17500 17400 17300 17200 17100 17000 16900 16800 16700 16600 16500 16400 16300 16200 16100 16000 15900 15800 15700 15600 15500 15400 15300 15200 15100 15000 14900 14800 14700 14600 14500 14400 14300 14200 14100 14000 13900 13800 13700 13600 13500 13400 13300 13200 13100 13000 12900 12800 12700 12600 12500 12400 12300 12200 12100 12000 11900 11800 11700 11600 11500 11400 11300 11200 11100 11000 10900 10800 10700 10600 10500 10400 10300 10200 10100 10000 9900 9800 9700 9600 9500 9400 9300 9200 9100 9000 8900 8800 8700 8600 8500 8400 8300 8200 8100 8000 7900 7800 7700 7600 7500 7400 7300 7200 7100 7000 6900 6800 6700 6600 6500 6400 6300 6200 6100 6000 5900 5800 5700 5600 5500 5400 5300 5200 5100 5000 4900 4800 4700 4600 4500 4400 4300 4200 4100 4000 3900 3800 3700 3600 3500 3400 3300 3200 3100 3000 2900 2800 2700 2600 2500 2400 2300 2200 2100 2000 1900 1800 1700 1600 1500 1400 1300 1200 1100 1000 900 800 700 600 500 400
